@@ -1,0 +1,271 @@
+:root {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  --bg-color: #1a1a1a;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --primary-color: #646cff;
+  --primary-hover: #535bf2;
+  --card-bg: #2a2a2a;
+  --border-color: #333;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 900px;
+  padding: 3rem 2rem;
+  box-sizing: border-box;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  margin-bottom: 3rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  background: linear-gradient(120deg, #fff, #888);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  color: #888;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+}
+
+.action-area {
+  margin-bottom: 2rem;
+}
+
+.run-btn {
+  border-radius: 8px;
+  border: none;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px 0 rgba(100, 108, 255, 0.39);
+}
+
+.run-btn:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(100, 108, 255, 0.23);
+}
+
+.run-btn:disabled {
+  background-color: #444;
+  cursor: wait;
+  box-shadow: none;
+  opacity: 0.8;
+}
+
+.btn-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-box {
+  margin: 1rem auto;
+  padding: 1rem;
+  background-color: #381818;
+  border: 1px solid #ff4d4f;
+  border-radius: 8px;
+  color: #ffccc7;
+  max-width: 600px;
+  text-align: left;
+}
+
+.results-container {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  border-color: #444;
+}
+
+.card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.85rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.card .value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+}
+
+.card .unit {
+  font-size: 1rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.chart-container {
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.chart-container h3 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #ddd;
+}
+
+.chart-caption {
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+}
+
+/* Loading */
+.loading-state {
+  color: #888;
+  margin-top: 2rem;
+}
+
+.loading-hint {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.spinner-small {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff60;
+  border-left-color: #fff;
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid #333;
+  color: #666;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.footer-note {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* Light Mode Override */
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --bg-color: #f8f9fa;
+    --text-color: #213547;
+    --card-bg: #ffffff;
+    --border-color: #e5e7eb;
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+  }
+
+  h1 {
+    background: none;
+    -webkit-text-fill-color: #111;
+    color: #111;
+  }
+
+  .card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .card .unit {
+    color: #888;
+  }
+
+  .chart-container {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+}

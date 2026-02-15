@@ -41,3 +41,12 @@ sphinx/examplesout.ipynb
 
 .ipython
 *.nc
+
+node_modules/
+frontend/node_modules/
+.venv/
+__pycache__/
+*.pyc
+dist/
+frontend/dist/
+.env
