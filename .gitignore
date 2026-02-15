@@ -17,7 +17,7 @@ docs
 OpenOA.egg-info
 build
 dist
-*.csv
+
 
 .pytest_cache
 
