@@ -41,10 +41,18 @@ function App() {
     value: val
   })) || []
 
+  // Dynamic iteration count calculation
+  const iterationCount = result?.distribution?.length || 0
+
   return (
     <div className="container">
       <header>
-        <div className="badge">Monte Carlo Iterations: 2 (Demo Mode)</div>
+        {result && (
+          <div className="badge">Monte Carlo Iterations: {iterationCount} (Optimized for demo stability)</div>
+        )}
+        {!result && (
+          <div className="badge">OpenOA Demo Mode</div>
+        )}
         <h1>OpenOA Monte Carlo AEP Demo</h1>
         <p className="subtitle">
           Estimate long-term Annual Energy Production (AEP) using the Monte Carlo method.
@@ -77,8 +85,8 @@ function App() {
 
         {loading && !result && (
           <div className="loading-state">
-            <p>Running simulations on 2 iterations...</p>
-            <p className="loading-hint">Processing ~13 months of SCADA data (Limit for Demo Stability).</p>
+            <p>Running simulations...</p>
+            <p className="loading-hint">Processing ~13 months of SCADA data (Optimized for Demo Stability).</p>
           </div>
         )}
 
@@ -123,7 +131,9 @@ function App() {
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-              <p className="chart-caption">Distribution of AEP values across 2 Monte Carlo simulations.</p>
+              <p className="chart-caption">
+                Distribution of AEP values across {iterationCount} Monte Carlo simulations (Demo Mode).
+              </p>
             </div>
 
             <div className="metrics-explanation">
@@ -131,19 +141,19 @@ function App() {
               <div className="explanation-grid">
                 <div className="explanation-item">
                   <h4>Mean AEP (GWh)</h4>
-                  <p>The average annual energy production estimated from all Monte Carlo simulations.</p>
+                  <p>Average annual energy production across all Monte Carlo simulations.</p>
                 </div>
                 <div className="explanation-item">
                   <h4>P50 AEP</h4>
-                  <p>The energy production value that is exceeded 50% of the time (Median expectation).</p>
+                  <p>Median expected annual production. There is a 50% probability actual production will exceed this value.</p>
                 </div>
                 <div className="explanation-item">
                   <h4>P90 AEP</h4>
-                  <p>A conservative estimate: the energy production level we are 90% confident will be met.</p>
+                  <p>Conservative estimate. There is a 90% probability actual production will exceed this value.</p>
                 </div>
                 <div className="explanation-item">
                   <h4>Uncertainty (%)</h4>
-                  <p>The standard deviation relative to the mean, representing the variability in key inputs (shear, losses, availability).</p>
+                  <p>Relative variability of results, calculated as (standard deviation / mean × 100).</p>
                 </div>
               </div>
             </div>
