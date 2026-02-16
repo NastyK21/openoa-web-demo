@@ -82,9 +82,9 @@ def run_simulation(data_path: str):
     project = prepare_plant_data(path)
     
     # Analysis
-    # Reduced iterations for MVP speed (default is often 100-200)
+    # drastically reduced iterations for Render stability (MVP)
     pa = MonteCarloAEP(project, reanalysis_products=['era5', 'merra2'])
-    pa.run(num_sim=50) 
+    pa.run(num_sim=5) 
     
     # Result Extraction
     # pa.results is a DataFrame with simulation results
