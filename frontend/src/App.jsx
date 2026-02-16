@@ -23,6 +23,11 @@ function App() {
 
       const data = await response.json()
       setResult(data)
+
+      // Optional: scroll to results
+      setTimeout(() => {
+        document.getElementById('results-section')?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -39,6 +44,7 @@ function App() {
   return (
     <div className="container">
       <header>
+        <div className="badge">Monte Carlo Iterations: 2 (Demo Mode)</div>
         <h1>OpenOA Monte Carlo AEP Demo</h1>
         <p className="subtitle">
           Estimate long-term Annual Energy Production (AEP) using the Monte Carlo method.
@@ -71,13 +77,13 @@ function App() {
 
         {loading && !result && (
           <div className="loading-state">
-            <p>Running simulations on 50 iterations...</p>
-            <p className="loading-hint">This usually takes about 3 seconds.</p>
+            <p>Running simulations on 2 iterations...</p>
+            <p className="loading-hint">Processing ~13 months of SCADA data (Limit for Demo Stability).</p>
           </div>
         )}
 
         {result && (
-          <div className="fade-in results-container">
+          <div id="results-section" className="fade-in results-container">
             <div className="metrics-grid">
               <div className="card">
                 <h3>Mean AEP</h3>
@@ -99,7 +105,7 @@ function App() {
 
             <div className="chart-container">
               <h3>AEP Distribution (GWh)</h3>
-              <div style={{ width: '100%', height: 300 }}>
+              <div style={{ width: '100%', height: 350 }}>
                 <ResponsiveContainer>
                   <BarChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff20" />
@@ -111,12 +117,35 @@ function App() {
                     <Tooltip
                       cursor={{ fill: '#ffffff10' }}
                       contentStyle={{ backgroundColor: '#333', borderColor: '#444', color: '#fff' }}
+                      formatter={(value) => [value.toFixed(0), 'Frequency']}
                     />
                     <Bar dataKey="value" fill="#646cff" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-              <p className="chart-caption">Distribution of AEP values across 50 Monte Carlo simulations.</p>
+              <p className="chart-caption">Distribution of AEP values across 2 Monte Carlo simulations.</p>
+            </div>
+
+            <div className="metrics-explanation">
+              <h3>Understanding the Metrics</h3>
+              <div className="explanation-grid">
+                <div className="explanation-item">
+                  <h4>Mean AEP (GWh)</h4>
+                  <p>The average annual energy production estimated from all Monte Carlo simulations.</p>
+                </div>
+                <div className="explanation-item">
+                  <h4>P50 AEP</h4>
+                  <p>The energy production value that is exceeded 50% of the time (Median expectation).</p>
+                </div>
+                <div className="explanation-item">
+                  <h4>P90 AEP</h4>
+                  <p>A conservative estimate: the energy production level we are 90% confident will be met.</p>
+                </div>
+                <div className="explanation-item">
+                  <h4>Uncertainty (%)</h4>
+                  <p>The standard deviation relative to the mean, representing the variability in key inputs (shear, losses, availability).</p>
+                </div>
+              </div>
             </div>
           </div>
         )}

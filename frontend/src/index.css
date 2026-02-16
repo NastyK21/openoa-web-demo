@@ -269,3 +269,69 @@ footer {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 }
+
+/* New Polish Styles */
+.badge {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ccc;
+  font-size: 0.75rem;
+  padding: 0.3em 0.8em;
+  border-radius: 9999px;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.metrics-explanation {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.metrics-explanation h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: #ddd;
+  text-align: center;
+}
+
+.explanation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.explanation-item h4 {
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.explanation-item p {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Polish Overrides */
+.chart-container h3 {
+  font-size: 1.3rem;
+  /* Larger chart title */
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.card {
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: #555;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
