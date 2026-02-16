@@ -36,11 +36,14 @@ def prepare_plant_data(data_path: Path) -> PlantData:
          # The directory list showed "la-haute-borne-data-2014-2015.csv"
          pass
 
-    scada_raw = pd.read_csv(scada_path)
+    # Aggressive Optimization: Read first 60000 rows (approx 13 months)
+    # Analysis requires specific calendar coverage (full year) to avoid exceptions.
+    scada_raw = pd.read_csv(scada_path, nrows=60000)
     scada_clean = clean_scada_data(scada_raw)
 
-    # 2. Load other CSVs (assuming they are pre-formatted/clean-ish from the repo example)
-    meter_df = pd.read_csv(data_path / "plant_data.csv")
+    # 2. Load other CSVs
+    # Match SCADA restriction
+    meter_df = pd.read_csv(data_path / "plant_data.csv", nrows=60000)
     meter_df["time"] = pd.to_datetime(meter_df["time_utc"]).dt.tz_localize(None)
     
     # Split meter/curtail (based on example logic)
@@ -49,6 +52,9 @@ def prepare_plant_data(data_path: Path) -> PlantData:
     curtail_df = curtail_df.drop(["time_utc"], axis=1)
 
     # Reanalysis
+    # CRITICAL: We MUST read the full reanalysis files (or correct offsets).
+    # Reanalysis files are relatively small (~25-30MB) and fast to read compared to regression compute time.
+    # The optimization gain comes from limiting SCADA points (regression size), not Reanalysis I/O.
     era5 = pd.read_csv(data_path / "era5_wind_la_haute_borne.csv")
     merra2 = pd.read_csv(data_path / "merra2_la_haute_borne.csv")
     
@@ -57,7 +63,8 @@ def prepare_plant_data(data_path: Path) -> PlantData:
         if "datetime" in df.columns:
              df["datetime"] = pd.to_datetime(df["datetime"], utc=True).dt.tz_localize(None)
 
-    asset_df = pd.read_csv(data_path / "la-haute-borne_asset_table.csv")
+    # Asset table is tiny, nrows=2000 is fine (it's < 100 rows)
+    asset_df = pd.read_csv(data_path / "la-haute-borne_asset_table.csv", nrows=2000)
     asset_df["type"] = "turbine"
 
     # 3. Construct PlantData
@@ -82,9 +89,10 @@ def run_simulation(data_path: str):
     project = prepare_plant_data(path)
     
     # Analysis
-    # drastically reduced iterations for Render stability (MVP)
+    # EMERGENCY OPTIMIZATION: num_sim=2 (User requested)
+    # Combined with limited SCADA rows, this ensures extremely fast execution.
     pa = MonteCarloAEP(project, reanalysis_products=['era5', 'merra2'])
-    pa.run(num_sim=5) 
+    pa.run(num_sim=2) 
     
     # Result Extraction
     # pa.results is a DataFrame with simulation results
